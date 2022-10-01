@@ -30,30 +30,30 @@
         HDF5 (Hierarchical Data Format v.5) files are extremely efficient modes of data storage, creating a highly portable, accessible, and organized data structure. My work frequently requires me to access HDF5 file contents and has recently involved my creation of unique HDF5 files for performance testing purposes.
       </p>
       <p>
-        This script is built to create a bare-bones representation of the data structure in an AREPO output (specifically the cell Coordinates) using only the <kbd>numpy</kbd> and <kbd>h5py</kbd> Python libraries.  Result: Makes an hdf5 file with an array of three 3D vectors. HDF5 structure - {file_name}/PartType0/Coordinates
+        This script is built to create a bare-bones representation of the data structure in an AREPO output (specifically the cell Coordinates) using only the <kbd>numpy</kbd> and <kbd>h5py</kbd> Python libraries.  Result: Makes an hdf5 file with an array of three 3D coordinates and associated densities. HDF5 structure - {file_name}/PartType0/Coordinates and {file_name}/PartType0/Density. 
         <br>
 <pre>
 <code>
-    import numpy as np
-    import h5py
-
-    coords = np.zeros((3,3))
-    mass = np.zeros(3)
-                                                                                
-    coords[0] = [-1.5, 1.5, 0.0]
-    coords[1] = [0.0, 0.0, 0.0]
-    coords[2] = [3.5, -3.5, 3.5]
-            
-    mass[0] = 8.0
-    mass[1] = 5.0
-    mass[2] = 10.0
-    print(coords)
-    print(coords.dtype)
-            
-    f = h5py.File('{file_name}.hdf5', 'w')
-    group = f.create_group('PartType0')
-    dset = group.create_dataset('Coordinates', data = coords, dtype = 'd')
-    dset = group.create_dataset('Masses', data = mass, dtype = 'd')
+  import numpy as np
+  import h5py                                                                                                     
+  
+  coords = np.zeros((4,3))
+  dens = np.zeros(4)
+      
+  coords[0] = [307.58379038431644, 296.06670264057715, 300.0282243435139]
+  coords[1] = [307.58379038431644, 296.06670264057715, 300.0282243435139]
+  coords[2] = [306.8695046700308,  295.3524169262915, 300.0282243435139]
+  coords[3] = [306.8695046700308,  295.3524169262915, 300.0282243435139]
+  
+  dens[0] = 1.0e-21
+  dens[1] = 1.0e-21
+  dens[2] = 1.0e-19
+  dens[3] = 1.0e-19
+  
+  f = h5py.File('voramr_test.hdf5', 'w')
+  group = f.create_group('PartType0')
+  dset = group.create_dataset('Coordinates', data = coords, dtype = 'd')
+  dset = group.create_dataset('Density', data = dens, dtype = 'd')
 </code>
 </pre>
     </p>
