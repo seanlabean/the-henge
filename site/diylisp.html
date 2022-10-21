@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/><meta name="viewport" content="width=device-width, inital-scale=1"/><link href="../links/main.css" type="text/css" rel="stylesheet"/><link href="../media/icon/asterix.png" type="image/png" rel="shortcut icon"/>
+    <title>S. C. Lewis &mdash; compsci</title>
+  </head>
+  <body>
+    <header><a href="home.html"><img alt="Serving" src="../media/icon/henge.png" width="90" height="70"></a></header>
+    <nav>
+      <ul>
+        <li><a href="journal.html">journal</a></li>
+        <li><a href="research.html" class="parent">research</a></li>
+        <li><a href="hobbies.html">hobbies</a></li>
+        <li><a href="about.html">about</a></li>
+      </ul>
+      <ul>
+        <li><a href="astro.html">astro</a></li>
+        <li><a href="compsci.html" class="parent">compsci</a></li>
+        <li><a href="void.html">the void</a></li>
+      </ul>
+      <ul>
+        <li><a  href="csknowledge.html">knowledge</a></li>
+        <li><a  href="diylisp.html" class="self">diy-lisp</a></li>
+      </ul>
+    </nav>
+    <main>
+      <br>
+      <h2>Meat - the DIY Lisp</h2>
+      <p>
+        Lisp is a <a href='https://en.wikipedia.org/wiki/Lisp_(programming_language)' target="_out">family of languages</a> that treats all data structures as lists, even its source code is comprised of lists (hence the name <em>LIS</em>t <em>P</em>rocessor). Lisp is the second oldest programming language, preceded only by Fortran.
+      </p>
+      <p>
+        In this exercise, I use C to create my own Lisp. Originally, I embarked on this particularly difficult task because I wanted to add features to the open source photo editing tool <a href="https://wiki.xxiivv.com/site/ronin.html" target="_out">Ronin</a> which I began <a href="digital.html">playing around</a> with recently. Ronin is written and operated in its own version of Lisp which was prohibitively difficult for me to understand. I figure that learning to make my own will give me a leg up on how to make the appropriate edits and additions to the open source project. I will be following along Daniel Holden's <a href="https://www.buildyourownlisp.com/" target="_out">Build Your Own Lisp</a> project. I also suspect that <a href="https://wiki.xxiivv.com/site/devine_lu_linvega.html" target="_out">Ronin's creator</a> took this exact same route in the journey to create the tool.
+      </p>
+      <h4>What is a programming language</h4>
+      <p>
+        A programming language, like any other language, is a mutable combination of words or phrases that form some coherent structure which can be understood by entities other than the utterer. This ability to understand comes from the fact that language must follow a (mostly) self-consistent set of rules. We call this set rules a <em>grammar</em>. In our everyday languages, the use of a grammar rule set comes fairly naturally, but in programming we have to be more rigorous, computers are tough conversational partners.
+      </p>
+      <p>
+        To build my own programming language I use the <a href="https://github.com/orangeduck/mpc" target="_out"><c>mpc</c></a> Parser Combinator Library. <c>mpc</c> allows me to simultaneously define the foundational elements of a language (e.g. nouns, adjectives, verbs), the options within those elements (cat, fluffy, run), as well as the rules by which such elements must be combined together to form an expression ("the fluffy cat runs" rather than "run cat the fluffy").
+      </p>
+      <p>
+        Below is an example of how I would construct the bedrock elements of an ultra-simple language called "Meat". 
+      </p>
+      <pre>
+mpc_parser_t* Adjective = mpc_new("adjective");
+mpc_parser_t* Noun      = mpc_new("noun");
+mpc_parser_t* Phrase    = mpc_new("phrase");
+mpc_parser_t* Meat      = mpc_new("meat");
+
+mpca_lang(MPCA_LANG_DEFAULT,
+  "                                           \
+    adjective : \"fluffy\" | \"brown\"            \
+              | \"lovely\";           \
+    noun      : \"lisp\" | \"language\"       \
+              | \"book\" | \"cat\" | \"c\"; \
+    phrase    : [adjective] [noun];           \
+    lang      : [phrase]*;                    \
+  ",
+  Adjective, Noun, Phrase, Meat);
+
+/* Do some parsing here... */
+
+mpc_cleanup(4, Adjective, Noun, Phrase, Meat);
+      </pre>
+      <p>
+        And with these grammatical rules (defined within the parser combinator <c>mpc</c>), I've established the grammar of "Meat". It's that easy!
+      </p>
+      <table border='1'>
+        <tr><td>Syntax</td><td>Grammar Rule</td></tr>
+        <tr><td><c>'ab'</c></td><td>The string <c>ab</c> is required.</td></tr>
+        <tr><td><c>'a'</c></td><td>The character <c>a</c> is required.</td></tr>
+        <tr><td><c>'a' 'b'</c></td><td>First <c>a</c> is required then <c>b</c> is required.</td></tr>
+        <tr><td><c>'a' | 'b'</c></td><td>Either <c>a</c> is required or <c>b</c> is required.</td></tr>
+        <tr><td><c>'a'*</c></td><td>Zero or more <c>a</c> are required.</td></tr>
+        <tr><td><c>'a'+</c></td><td>One or more <c>a</c> are required.</td></tr>
+        <tr><td><c>[abba]</c></td><td>The rule <c>abba</c> is required.</td></tr>
+    </table>
+    <p>
+        Of course, as with any language, the number of the foundational elements is significantly larger, but luckily the rules by which they are applied are relatively constrained. The average programmer knows this to be true as there is not <em>that</em> many ways you can construct or manipulate an <c>if</c> or <c>for</c> loop.
+    </p>
+    </main>
+  <footer><span><a href="sclewis.html">Sean C. Lewis</a> &copy; 2022 &mdash; <a href="about.html">BY-NC-SA 4.0</a></span></footer>
+  </body>
+</html>
