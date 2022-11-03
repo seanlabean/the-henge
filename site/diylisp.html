@@ -34,7 +34,7 @@
       </p>
       <h3>What is a programming language</h3>
       <p>
-        A programming language, like any other language, is a mutable combination of words or phrases that form some coherent structure which can be understood by entities other than the utterer. This ability to understand comes from the fact that language must follow a (mostly) self-consistent set of rules. We call this set rules a <em>grammar</em>. In our everyday languages, the use of a grammar rule set comes fairly naturally, but in programming we have to be more rigorous, computers are tough conversational partners.
+        A programming language, like any other language, is a mutable combination of words or phrases that form some coherent structure which can be understood by entities other than the utterer. This ability to understand comes from the fact that language must follow a (mostly) self-consistent set of rules. I call this set rules a <em>grammar</em>. In our everyday languages, the use of a grammar rule set comes fairly naturally, but in programming I have to be more rigorous, computers are tough conversational partners.
       </p>
       <p>
         To build my own programming language I use the <a href="https://github.com/orangeduck/mpc" target="_out"><c>mpc</c></a> Parser Combinator Library. <c>mpc</c> allows me to simultaneously define the foundational elements of a language (e.g. nouns, adjectives, verbs), the options within those elements (cat, fluffy, run), as well as the rules by which such elements must be combined together to form an expression ("the fluffy cat runs" rather than "run cat the fluffy").
@@ -81,7 +81,7 @@ mpca_lang(MPCA_LANG_DEFAULT,
       Of course, as with any language, the number of the foundational elements is significantly larger, but luckily the rules by which they are applied are relatively constrained. The average programmer knows this to be true as there is not <em>that</em> many ways you can construct or manipulate simple mathematical expressions.
     </p>
     <p>
-      The next steps require some pointer magic to direct a Parser to take some input text and pass through the Sartoris language structure. If we pass through an input such as <code>+ 5 (* 2 2)</code>, the output would look something like the following, it may not be obvious, but this is a nested tree structure with leafs and leafs with leafs. As with other tree data structures, a recursive function is a very effective way to move through a tree.
+      The next steps require some pointer magic to direct a Parser to take some input text and pass through the Sartoris language structure. If I pass through an input such as <code>+ 5 (* 2 2)</code>, the output would look something like the following, it may not be obvious, but this is a nested tree structure with leafs and leafs with leafs. As with other tree data structures, a recursive function is a very effective way to move through a tree.
     </p>
     <pre>
 regex
@@ -96,7 +96,15 @@ regex
 regex
     </pre>
     <h3>Stepping Through the Tree</h3>
-    <p></p>
+    <p>
+      From our interpreter's perspective the tree that I have generated, while detailed, is ultimately a bunch of nonsense. Evaluating our input requires stepping through the tree, extracting and interpreting the elements encounted, and outputting a result. 
+    </p>
+    <p>
+      Daunting to be sure. But if I examine the tree structure long enough and think about how the tree would expand with a more complex input, some obvious and exploitable patterns emerge. First, the 0th element encountered will always be an operator, followed by a number as the 1st element. Next, either a <c>'('</c> character or another number. If it's a number(s), I can extract the elements into a separate funciton that checks the operator and performs the appropriate math on the numbers. <b>But</b>, if it's a <c>'('</c>, then I can repeat the cycle; our evaluation is internally recursive. The recursive nature of LISPs allows for complex nested inputs to be parsed in an ultra-compact manner, requiring just at few dozen lines (when including element typing to assist in error handling).
+    </p>
+    <p>
+      Once the parsing and interpreting structure is established, I expaned the types of operators that a user can pass to include <c>power: '^'</c>, <c>mod: '%'</c>, as well as externally defined functions <c>MAX() MIN()</c>.
+    </p>
     </main>
   <footer><span><a href="sclewis.html">Sean C. Lewis</a> &copy; 2022 &mdash; <a href="about.html">BY-NC-SA 4.0</a></span></footer>
   </body>
