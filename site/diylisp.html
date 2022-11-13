@@ -109,6 +109,26 @@ regex
       Once the parsing and interpreting structure is established, I expaned the types of operators that a user can pass to include <c>power: '^'</c>, <c>mod: '%'</c>, as well as externally defined functions <c>MAX() MIN()</c>.
     </p>
     </main>
+    <h3>Adding new features to SLISP</h3>
+    <p>
+      The typical approach to adding new features to the language consists of a number of steps:
+      <table border='1'>
+        <tr><td>Syntax</td><td>Add new rule to the language grammar.</td></tr>
+        <tr><td>Representation</td><td>Add new data type variation.</td></tr>
+        <tr><td>Parsing</td><td>Add new functions for reading the feature from the <em>abstract syntax tree</em>.</td></tr>
+        <tr><td>Semantics</td><td>Add new functions for evauating and manipulating.</td></tr>
+    </table>
+    </p>
+    <p>
+      Q-expressions
+      <table border='2'>
+        <tr><td>list</td><td>Takes one oor more args and returns new Q-Expr containing the args.</td></tr>
+        <tr><td>head</td><td>Returns a Q-Expr and returns the first element of another Q-Expr.</td></tr>
+        <tr><td>tail</td><td>Returns Q-Expr with first element removed.</td></tr>
+        <tr><td>join</td><td>Returns sinlge Q-Expr of two or more conjoined Q-expr.</td></tr>
+        <tr><td>eval</td><td>Evaluates Q-Expr as if it were an S-Expr.</td></tr>
+    </table>
+    </p>
   <footer><span><a href="sclewis.html">Sean C. Lewis</a> &copy; 2022 &mdash; <a href="about.html">BY-NC-SA 4.0</a></span></footer>
   </body>
 </html>
